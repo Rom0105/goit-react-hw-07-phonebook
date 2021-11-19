@@ -2,9 +2,8 @@ import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 // import types from './contact-types';
 import * as actions from './contact-actions';
-import contacts from '../json/contacts.json';
 
-const items = createReducer(contacts, {
+const items = createReducer([], {
   [actions.addContact]: (state, { payload }) => {
     if (state.find(contact => contact.name.toLowerCase() === payload.name.toLowerCase())) {
       alert(`${payload.name} is already in contacts`);
