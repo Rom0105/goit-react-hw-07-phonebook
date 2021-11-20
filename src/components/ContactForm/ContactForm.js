@@ -1,32 +1,42 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getContacts } from '../../Redux/contact-selectors';
-import { addContact } from '../../Redux/contact-actions';
+import { addContact } from '../../Redux/contact-slice';
 import style from '../ContactForm/ContactForm.module.css';
 
 function ContactForm() {
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleChangeName = event => {
-    setName(event.currentTarget.value);
-  };
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
-  const handleChangeNumber = event => {
-    setNumber(event.currentTarget.value);
-  };
+  const handleChangeName = ({ currentTarget: { name, value } }) => {
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
 
+      case 'number':
+        setNumber(value);
+        break;
+
+      default:
+        return;
+    }
+  };
   const handleSubmit = event => {
     event.preventDefault();
-    resetForm();
-    if (contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase())) {
+
+    if (name === '' && number === '') {
       return alert(`${name} is already in contacts`);
     }
-    dispatch(addContact(name, number));
-    setName('');
-    setNumber('');
+    contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase() || contact.phone === number,
+    )
+      ? alert(`${name} is already in contacts.`)
+      : dispatch(addContact({ name, number }));
+    resetForm();
   };
 
   const resetForm = () => {
@@ -55,7 +65,7 @@ function ContactForm() {
           type="tel"
           name="number"
           value={number}
-          onChange={handleChangeNumber}
+          onChange={handleChangeName}
           className={style.input}
           pattern="(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})"
           title="Номер телефона должен состоять из 11-12 цифр и может содержать цифры, пробелы, тире, пузатые скобки и может начинаться с +"
