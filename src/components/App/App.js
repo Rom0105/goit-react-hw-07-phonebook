@@ -17,10 +17,10 @@ function App() {
   return (
     <Container>
       <h2 className={style.title}>Phone book</h2>
-      {isLoading && <h1>Loading...</h1>}
       <ContactForm />
       <h2 className={style.title}>Contacts</h2>
       <Filter />
+      {isLoading && <h2 className={style.title}>Loading...</h2>}
       <ContactList />
     </Container>
   );
