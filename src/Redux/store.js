@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { items, loading } from './contact-reducer';
 import { filter } from './filter/ContactFilterReducer';
 
-const middleware = [...getDefaultMiddleware()];
+// const middleware = [...getDefaultMiddleware()];
 
 const rootReducer = combineReducers({
   items,
@@ -15,6 +15,6 @@ export const store = configureStore({
   reducer: {
     contacts: rootReducer,
   },
-  middleware,
-  devTools: process.env.NODE_ENV === 'development',
+  // middleware,
+  // devTools: process.env.NODE_ENV === 'development',
 });
