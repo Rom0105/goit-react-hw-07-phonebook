@@ -32,7 +32,9 @@ function ContactForm() {
       return alert(`${name} is already in contacts`);
     }
     contacts.some(
-      contact => contact.name.toLowerCase() === name.toLowerCase() || contact.phone === number,
+      contact =>
+        contact.name.toLowerCase() === name.toLowerCase() ||
+        contact.phone === number,
     )
       ? alert(`${name} is already in contacts.`)
       : dispatch(addContact({ name, number }));
